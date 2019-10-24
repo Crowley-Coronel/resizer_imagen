@@ -1,12 +1,14 @@
 package redimensionador;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import redimensionador.engine.ImageResizer;
 
 class Principal extends javax.swing.JFrame {
@@ -33,6 +35,8 @@ class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        MensajeCorrecto = new javax.swing.JLabel();
         BotonSeleccionar = new javax.swing.JButton();
         labelPathImagen = new javax.swing.JLabel();
         botonRedimenzionar = new javax.swing.JButton();
@@ -44,6 +48,30 @@ class Principal extends javax.swing.JFrame {
         imagenMostrar = new javax.swing.JLabel();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
+
+        jDialog1.setTitle("Mensaje");
+        jDialog1.setResizable(false);
+        jDialog1.setSize(new java.awt.Dimension(450, 200));
+
+        MensajeCorrecto.setFont(new java.awt.Font("Dialog", 1, 22)); // NOI18N
+        MensajeCorrecto.setText("Imagen redimensionada correctamente");
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(MensajeCorrecto)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(MensajeCorrecto, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(221, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 51));
@@ -112,9 +140,6 @@ class Principal extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(107, 107, 107))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jRadioButton1)
                                         .addGap(18, 18, 18)
                                         .addComponent(jRadioButton2)
@@ -122,7 +147,10 @@ class Principal extends javax.swing.JFrame {
                                         .addComponent(jRadioButton3)
                                         .addGap(38, 38, 38)
                                         .addComponent(jRadioButton4)
-                                        .addGap(0, 22, Short.MAX_VALUE))))
+                                        .addGap(0, 22, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(108, 108, 108))))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(BotonSeleccionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -156,8 +184,8 @@ class Principal extends javax.swing.JFrame {
                     .addComponent(jRadioButton3)
                     .addComponent(jRadioButton4))
                 .addGap(18, 18, 18)
-                .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonRedimenzionar)
                     .addComponent(cropBoton))
@@ -203,6 +231,13 @@ class Principal extends javax.swing.JFrame {
     private void botonRedimenzionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonRedimenzionarMouseClicked
         try {
             redimenzionador.redimenzionar();
+            Dimension altura_p = this.getSize();
+            System.out.println(altura_p);
+            int pos_x = this.getX();
+            int pos_y = this.getY();
+            jDialog1.setBounds(pos_x, pos_y, 500, 250);
+            jDialog1.show();
+            MensajeCorrecto.show();
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -224,12 +259,13 @@ class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_imagenMostrarMouseReleased
 
     private void imagenMostrarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenMostrarMouseDragged
+        repaint();
         Graphics g = imagenMostrar.getGraphics();
         g.setColor(Color.CYAN);
         x2 = evt.getX() - x;
         y2 = evt.getY() - y;
         g.drawRect(x, y, x2, y2);
-        repaint();
+
     }//GEN-LAST:event_imagenMostrarMouseDragged
 
     private void imagenMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenMostrarMouseClicked
@@ -244,6 +280,8 @@ class Principal extends javax.swing.JFrame {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
+                    System.out.println("info______lookandfeel");
+                    System.out.println(info);
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -270,9 +308,11 @@ class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonSeleccionar;
     private javax.swing.JButton FolderSalida;
+    private javax.swing.JLabel MensajeCorrecto;
     private javax.swing.JButton botonRedimenzionar;
     private javax.swing.JButton cropBoton;
     private javax.swing.JLabel imagenMostrar;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
