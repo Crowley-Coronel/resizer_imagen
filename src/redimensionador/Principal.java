@@ -3,6 +3,7 @@ package redimensionador;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,10 @@ class Principal extends javax.swing.JFrame {
     private int y;
     private int x2;
     private int y2;
+    private Color color_seleccion;
+    private Color color_seleccionado;
+    private int seleccion_ancho;
+    private int seleccion_alto;
 
     public Principal() {
         initComponents();
@@ -28,7 +33,10 @@ class Principal extends javax.swing.JFrame {
         y = 0;
         x2 = 0;
         y2 = 0;
-
+        color_seleccion = Color.green;
+        color_seleccionado = Color.red;
+        seleccion_ancho = 0;
+        seleccion_alto = 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -42,12 +50,13 @@ class Principal extends javax.swing.JFrame {
         botonRedimenzionar = new javax.swing.JButton();
         FolderSalida = new javax.swing.JButton();
         labelFolderSalida = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
         cropBoton = new javax.swing.JButton();
         imagenMostrar = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        anchuraInput = new javax.swing.JTextField();
+        alturaInput = new javax.swing.JTextField();
+        setearTamañoSeleccion = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jDialog1.setTitle("Mensaje");
         jDialog1.setResizable(false);
@@ -97,10 +106,6 @@ class Principal extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton1.setText("Banner");
-
-        jRadioButton2.setText("Categoria");
-
         cropBoton.setText("Recortar");
         cropBoton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -123,48 +128,52 @@ class Principal extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton3.setText("Producto");
+        setearTamañoSeleccion.setText("Setear");
+        setearTamañoSeleccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setearTamañoSeleccionActionPerformed(evt);
+            }
+        });
 
-        jRadioButton4.setText("Negocio");
+        jLabel1.setText("Ancho");
+
+        jLabel2.setText("Alto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(botonRedimenzionar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cropBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(462, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jRadioButton1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jRadioButton2)
-                                        .addGap(28, 28, 28)
-                                        .addComponent(jRadioButton3)
-                                        .addGap(38, 38, 38)
-                                        .addComponent(jRadioButton4)
-                                        .addGap(0, 22, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(108, 108, 108))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(BotonSeleccionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(FolderSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelFolderSalida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(labelPathImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(BotonSeleccionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(FolderSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelFolderSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                            .addComponent(labelPathImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(botonRedimenzionar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(96, 96, 96)
-                        .addComponent(cropBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 100, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(anchuraInput, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(alturaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(setearTamañoSeleccion))
+                            .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,15 +186,16 @@ class Principal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(FolderSalida)
                     .addComponent(labelFolderSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
-                .addGap(18, 18, 18)
-                .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(anchuraInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(alturaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(setearTamañoSeleccion))
+                .addGap(62, 62, 62)
+                .addComponent(imagenMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonRedimenzionar)
                     .addComponent(cropBoton))
@@ -212,6 +222,7 @@ class Principal extends javax.swing.JFrame {
             imagenMostrar.setSize(anchura, altura);
             imagenMostrar.setIcon(imagenPintar);
         }
+
     }//GEN-LAST:event_BotonSeleccionarMouseClicked
 
     private void FolderSalidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FolderSalidaMouseClicked
@@ -254,24 +265,38 @@ class Principal extends javax.swing.JFrame {
 
     private void imagenMostrarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenMostrarMouseReleased
         Graphics g = imagenMostrar.getGraphics();
-        g.setColor(Color.red);
-        g.drawRect(x, y, x2, y2);
+        g.setColor(color_seleccionado);
+        x = evt.getX() - (seleccion_ancho / 2);
+        y = evt.getY() - (seleccion_alto / 2);
+        x2 = seleccion_ancho;
+        y2 = seleccion_alto;
+        g.drawRect(x, y, seleccion_ancho, seleccion_alto);
     }//GEN-LAST:event_imagenMostrarMouseReleased
 
     private void imagenMostrarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenMostrarMouseDragged
         repaint();
+        x = evt.getX() - (seleccion_ancho / 2);
+        y = evt.getY() - (seleccion_alto / 2);
+        x2 = seleccion_ancho;
+        y2 = seleccion_alto;
         Graphics g = imagenMostrar.getGraphics();
-        g.setColor(Color.CYAN);
-        x2 = evt.getX() - x;
-        y2 = evt.getY() - y;
-        g.drawRect(x, y, x2, y2);
-
+        g.setColor(color_seleccion);
+        g.drawRect(x, y, seleccion_ancho, seleccion_alto);
     }//GEN-LAST:event_imagenMostrarMouseDragged
 
     private void imagenMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagenMostrarMouseClicked
-        x = evt.getX();
-        y = evt.getY();
+
     }//GEN-LAST:event_imagenMostrarMouseClicked
+
+    private void setearTamañoSeleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setearTamañoSeleccionActionPerformed
+        seleccion_ancho = Integer.parseInt(anchuraInput.getText());
+        seleccion_alto = Integer.parseInt(alturaInput.getText());
+        redimenzionador.set_alto_ancho_redimenzion(seleccion_ancho, seleccion_alto);
+        Graphics g = imagenMostrar.getGraphics();
+        g.setColor(color_seleccionado);
+        g.drawRect(10, 10, seleccion_ancho, seleccion_alto);
+        //repaint();
+    }//GEN-LAST:event_setearTamañoSeleccionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -309,15 +334,16 @@ class Principal extends javax.swing.JFrame {
     private javax.swing.JButton BotonSeleccionar;
     private javax.swing.JButton FolderSalida;
     private javax.swing.JLabel MensajeCorrecto;
+    private javax.swing.JTextField alturaInput;
+    private javax.swing.JTextField anchuraInput;
     private javax.swing.JButton botonRedimenzionar;
     private javax.swing.JButton cropBoton;
     private javax.swing.JLabel imagenMostrar;
     private javax.swing.JDialog jDialog1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel labelFolderSalida;
     private javax.swing.JLabel labelPathImagen;
+    private javax.swing.JButton setearTamañoSeleccion;
     // End of variables declaration//GEN-END:variables
 }

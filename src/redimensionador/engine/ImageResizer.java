@@ -11,6 +11,13 @@ public class ImageResizer {
 
     private String pathImagen;
     private String pathFolderSalida;
+    private int ancho_redimenzion;
+    private int alto_redimenzion;
+
+    public void set_alto_ancho_redimenzion(int ancho, int alto) {
+        ancho_redimenzion = ancho;
+        alto_redimenzion = alto;
+    }
 
     public void set_image_path(String _pathImagen) {
         pathImagen = _pathImagen;
@@ -33,8 +40,8 @@ public class ImageResizer {
     }
 
     public void redimenzionar() throws IOException {
-        int scaledWidth = 1024;
-        int scaledHeight = 768;
+        int scaledWidth = ancho_redimenzion;
+        int scaledHeight = alto_redimenzion;
         File inputFile = new File(pathImagen);
         BufferedImage inputImage = ImageIO.read(inputFile);
         BufferedImage outputImage = new BufferedImage(scaledWidth,
